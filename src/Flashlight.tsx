@@ -24,7 +24,10 @@ const Flashlight: React.FC = () => {
         return;
       }
 
-      await track.applyConstraints({ advanced: [{ torch: true }] });
+      // Use type assertion to bypass TypeScript's type check
+      await track.applyConstraints({
+        advanced: [{ torch: true } as MediaTrackConstraintSet],
+      });
       setTorchOn(true);
     } catch (error) {
       console.error("Error accessing camera or torch:", error);
@@ -36,7 +39,9 @@ const Flashlight: React.FC = () => {
     if (torchOn) {
       if (trackRef.current) {
         try {
-          await trackRef.current.applyConstraints({ advanced: [{ torch: false }] });
+          await trackRef.current.applyConstraints({
+            advanced: [{ torch: false } as MediaTrackConstraintSet],
+          });
           trackRef.current.stop();
           setTorchOn(false);
         } catch (error) {
